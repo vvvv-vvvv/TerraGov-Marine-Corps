@@ -50,3 +50,15 @@
 #else
 #define LIBCALL call_ext
 #endif
+
+#if (DM_VERSION == 515)
+/// fcopy will crash on 515 linux if given a non-existant file, instead of returning 0 like on 514 linux or 515 windows
+/// var case matches documentation for fcopy.
+/world/proc/__fcopy(Src, Dst)
+	if (istext(Src) && !fexists(Src))
+		return 0
+	return fcopy(Src, Dst)
+
+#define fcopy(Src, Dst) world.__fcopy(Src, Dst)
+
+#endif
