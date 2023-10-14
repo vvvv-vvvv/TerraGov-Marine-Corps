@@ -110,29 +110,6 @@
 	to_chat(world, span_danger("Server shutting down[waitforroundend ? " after this round. " : ""].</span> <span class='notice'>Initiated by: [shuttingdown]"))
 	log_admin("Server shutting down[waitforroundend ? " after this round" : ""]. Initiated by: [shuttingdown]")
 
-#ifdef TGS_V3_API
-	if(GLOB.tgs)
-		var/datum/tgs_api/TA = GLOB.tgs
-		var/tgs3_path = CONFIG_GET(string/tgs3_commandline_path)
-		if(fexists(tgs3_path))
-			var/instancename = TA.InstanceName()
-			if(instancename)
-				shell("[tgs3_path] --instance [instancename] dd stop --graceful") //this tells tgstation-server to ignore us shutting down
-				if (waitforroundend)
-					message_admins("tgstation-server has been ordered to shutdown the server after the current round. The server shutdown can no longer be cancelled.")
-			else
-				var/msg = "WARNING: Couldn't find tgstation-server3 instancename, server might restart after shutdown."
-				message_admins(msg)
-				log_admin(msg)
-		else
-			var/msg = "WARNING: Couldn't find tgstation-server3 command line interface, server will very likely restart after shutdown."
-			message_admins(msg)
-			log_admin(msg)
-	else
-		var/msg = "WARNING: Couldn't find tgstation-server3 api object, server could restart after shutdown, but it will very likely be just fine"
-		message_admins(msg)
-		log_admin(msg)
-#endif
 	if (waitforroundend)
 		return
 	sleep(world.tick_lag) //so messages can get sent to players.

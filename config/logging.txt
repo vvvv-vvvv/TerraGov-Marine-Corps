@@ -1,0 +1,73 @@
+### Config Flags for logging
+
+## log admin actions
+LOG_ADMIN
+
+## log admin chat
+LOG_ADMINCHAT
+
+## log client access (logon/logoff)
+LOG_ACCESS
+
+## log asset debug logs
+# LOG_ASSET
+
+## log attack messages
+LOG_ATTACK
+
+## log emotes
+LOG_EMOTE
+
+## log game actions (start of round, results, etc.)
+LOG_GAME
+
+## log crew manifest to separate file
+LOG_MANIFEST
+
+## log mecha actions
+# LOG_MECHA
+
+## log OOC
+LOG_OOC
+
+## log LOOC
+LOG_LOOC
+
+## log XOOC
+LOG_XOOC
+
+## log MOOC
+LOG_MOOC
+
+## log prayers
+LOG_PRAYER
+
+## log client Say
+LOG_SAY
+
+## log speech indicators
+LOG_SPEECH_INDICATORS
+
+## log telecomms messages
+LOG_TELECOMMS
+
+## log hivemind
+LOG_HIVEMIND
+
+## log player drawings on minimap
+LOG_MINIMAP_DRAWING
+
+## log player votes
+LOG_VOTE
+
+## log client Whisper
+LOG_WHISPER
+
+## Log all timers on timer auto reset
+# LOG_TIMERS_ON_BUCKET_RESET
+
+## log all world.Topic() calls
+# LOG_WORLD_TOPIC
+
+## log all hrefs
+# LOG_HREFS

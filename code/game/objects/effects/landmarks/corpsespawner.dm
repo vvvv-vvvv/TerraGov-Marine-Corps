@@ -59,7 +59,6 @@
 	GLOB.mob_list -= victim
 	GLOB.round_statistics.total_human_deaths[victim.faction]--
 	SSblackbox.record_feedback("tally", "round_statistics", -1, "total_human_deaths[victim.faction]")
-	victim.timeofdeath = -CONFIG_GET(number/revive_grace_period)
 	ADD_TRAIT(victim, TRAIT_PSY_DRAINED, TRAIT_PSY_DRAINED)
 	ADD_TRAIT(victim, TRAIT_UNDEFIBBABLE, TRAIT_UNDEFIBBABLE)
 	ADD_TRAIT(victim, TRAIT_MAPSPAWNED, TRAIT_MAPSPAWNED)

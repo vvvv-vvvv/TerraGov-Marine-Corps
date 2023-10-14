@@ -11,8 +11,6 @@ Basics, the most important.
 
 /datum/config_entry/string/hostedby // Sets the hosted by name on unix platforms.
 
-/datum/config_entry/string/resource_url
-
 /datum/config_entry/flag/hub	// if the game appears on the hub or not
 
 /datum/config_entry/string/wikiurl
@@ -35,8 +33,6 @@ Basics, the most important.
 /// Host of the webmap
 /datum/config_entry/string/webmap_host
 	config_entry_value = "https://affectedarc07.co.uk/tgmc.php?m="
-
-/datum/config_entry/string/python_path
 
 /datum/config_entry/string/end_of_round_channel
 	config_entry_value = "game-updates"
@@ -92,8 +88,6 @@ Administrative related.
 
 /datum/config_entry/flag/log_hivemind
 
-/datum/config_entry/flag/log_runtime
-
 /datum/config_entry/flag/log_prayer
 
 /datum/config_entry/flag/log_game
@@ -140,8 +134,6 @@ Administrative related.
 
 /datum/config_entry/flag/use_exp_restrictions_other
 
-/datum/config_entry/flag/prevent_dupe_names
-
 /datum/config_entry/flag/kick_inactive	//force disconnect for inactive players
 
 /datum/config_entry/flag/automute_on	//enables automuting/spam prevention
@@ -179,16 +171,12 @@ Administrative related.
 /datum/config_entry/flag/allow_shutdown
 	protection = CONFIG_ENTRY_LOCKED
 
-/datum/config_entry/string/tgs3_commandline_path
-	protection = CONFIG_ENTRY_LOCKED | CONFIG_ENTRY_HIDDEN
-	config_entry_value = "C:\\Program Files (x86)\\TG Station Server\\TGCommandLine.exe"
-
 /datum/config_entry/number/minute_topic_limit
-	config_entry_value = 250
+	config_entry_value = 100
 	min_val = 0
 
 /datum/config_entry/number/second_topic_limit
-	config_entry_value = 15
+	config_entry_value = 10
 	min_val = 0
 
 /datum/config_entry/number/minute_click_limit
@@ -303,8 +291,6 @@ Master controller and performance related.
 	. = ..()
 	if(. && MC_RUNNING())
 		world.sleep_offline = !config_entry_value
-
-/datum/config_entry/flag/tickcomp
 
 /*
 System command that invokes youtube-dl, used by Play Internet Sound.

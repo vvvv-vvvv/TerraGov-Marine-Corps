@@ -3,9 +3,14 @@
 
 $include dbconfig.txt
 $include resources.txt
+$include logging.txt
+$include game_options.txt
 
 ## Server name: This appears at the top of the screen in-game.
 SERVER_NAME Something
+
+## Server SQL name: This is the name used to identify the server to the SQL DB, distinct from SERVERNAME as it must be at most 32 characters.
+# SERVERSQLNAME tgstation
 
 ## Hosted by name for unix platforms.
 HOSTEDBY yournamehere
@@ -16,8 +21,11 @@ TITLE Change Me
 ## Put on byond hub: Uncomment this to put your server on the byond hub.
 #HUB
 
-## Optional URL for faster resource downloading.
-#RESOURCE_URL url
+## Lobby time: This is the amount of time between rounds that players have to setup their characters and be ready.
+LOBBY_COUNTDOWN 180
+
+## Mission End Time: This is the amount of time after the round ends that players have to murder death kill each other.
+MISSION_END_COUNTDOWN 120
 
 ## Add a # infront of this if you want to use the SQL based admin system, the legacy system uses admins.txt and files in the data folder. You need to set up your database to use the SQL based system.
 ADMIN_LEGACY_SYSTEM
@@ -41,22 +49,43 @@ ALLOW_SHUTDOWN
 #TTS_VOICE_BLACKLIST Sans Undertale
 #TTS_VOICE_BLACKLIST Papyrus Undertale
 
-## If you use /tg/station-server 3 and you want to allow the shutdown server verb,
-##	the server needs to be able to tell tgs3 that the shutdown is not a crash.
-## This should be the path to the TGCommandLine.exe program in your tgstation-server install.
-## Defaults to C:\Program Files (x86)\TG Station Server\TGCommandLine.exe if not set.
-## 32 bit OS users use: C:\Program Files\TG Station Server\TGCommandLine.exe
-#TGS3_COMMANDLINE_PATH
+##Defines the ticklag for the world. Ticklag is the amount of time between game ticks (aka byond ticks) (in 1/10ths of a second).
+##	This also controls the client network update rate, as well as the default client fps
+TICKLAG 0.5
 
-LOCALHOST_RANK
+##Can also be set as per-second value, the following value is identical to the above.
+#FPS 20
 
-SEE_OWN_NOTES
+## Set to prevent anyone but those ckeys listed in config/whitelist.txt and config/admins.txt from joining your server
+#USEWHITELIST
 
-AUTOMUTE_ON
+## set a server location for world reboot. Don't include the byond://, just give the address and port.
+## Don't set this to the same server, BYOND will automatically restart players to the server when it has restarted.
+# SERVER ss13.example.com:2506
 
-PROTECT_LEGACY_ADMINS
+## Comment this out to disable automuting
+#AUTOMUTE_ON
 
-PROTECT_LEGACY_RANKS
+## Uncomment this to disable OOC after round begins
+#AUTOOOCMUTE
+
+## Uncomment this to let players see their own notes (they can still be set by admins only)
+#SEE_OWN_NOTES
+
+### Comment these two out to prevent notes fading out over time for admins.
+## Notes older then this will start fading out.
+NOTE_FRESH_DAYS 91.31055
+## Notes older then this will be completely faded out.
+NOTE_STALE_DAYS 365.2422
+
+## Comment this out to stop locally connected clients from being given the almost full access !localhost! admin rank
+#LOCALHOST_RANK
+
+##Uncomment this to stop any admins loaded by the legacy system from having their rank edited by the permissions panel
+#PROTECT_LEGACY_ADMINS
+
+##Uncomment this to stop any ranks loaded by the legacy system from having their flags edited by the permissions panel
+#PROTECT_LEGACY_RANKS
 
 ## Add your own URLs here.
 #FORUMURL
@@ -71,40 +100,6 @@ PROTECT_LEGACY_RANKS
 ## More API details can be found here: https://centcom.melonmesa.com
 CENTCOM_BAN_DB https://centcom.melonmesa.com/ban/search
 
-
-## Logging. Recommended you keep all of these on.
-LOG_OOC
-LOG_LOOC
-LOG_XOOC
-LOG_MOOC
-LOG_SAY
-LOG_TELECOMMS
-LOG_HIVEMIND
-LOG_ADMIN
-LOG_ADMINCHAT
-LOG_ACCESS
-#LOG_ASSET
-LOG_GAME
-LOG_MINIMAP_DRAWING
-LOG_VOTE
-LOG_WHISPER
-LOG_EMOTE
-LOG_ATTACK
-LOG_HREFS
-LOG_RUNTIME
-LOG_MANIFEST
-# LOG_MECHA
-
-## Gameplay options
-
-ALLOW_AI
-ALLOW_AI_MULTICAM
-
-LOOC_ENABLED
-
-BONES_CAN_BREAK
-LIMBS_CAN_BREAK
-
 ## Uncomment to give admins the ability to send a maptext popup to players.
 ## Only fires when an admin requests it, not every ahelp.
 POPUP_ADMIN_PM
@@ -118,6 +113,8 @@ POPUP_ADMIN_PM
 
 ## End of round chat message
 # END_OF_ROUND_CHANNEL game-updates
+## Message to send to END_OF_ROUND_CHANNEL
+# RESTART_MESSAGE
 
 ## TOPIC RATE LIMITING
 ## This allows you to limit how many topic calls (clicking on an interface window) the client can do in any given game second and/or game minute.
@@ -128,13 +125,29 @@ SECOND_TOPIC_LIMIT 10
 
 MINUTE_TOPIC_LIMIT 100
 
+## CLICK RATE LIMITING
+## Same as above, but applies to clicking on objects in the game window.
+## This should be a higher then the interface limit to allow for the spam clickly nature of most battles.
+## Admins are exempt from these limits.
+## Hitting the minute limit notifies admins.
+## Set to 0 to disable.
+SECOND_CLICK_LIMIT 15
+
+MINUTE_CLICK_LIMIT 400
+
+## Error handling options
+## The "cooldown" time for each occurrence of a unique error
+#ERROR_COOLDOWN 600
+## How many occurrences before the next will silence them
+#ERROR_LIMIT 50
+## How long a unique error will be silenced for
+#ERROR_SILENCE_TIME 6000
+## How long to wait between messaging admins about occurrences of a unique error
+#ERROR_MSG_DELAY 50
+
 ## Deny all new connections by ckeys we haven't seen before (exempts admins and only denies the connection if the database is enabled and connected)
 ##	Requires database
 #PANIC_BUNKER
-
-## Uncomment to enable the interview system for players who are below the living hour requirement instead of explicitly blocking them from the server
-## Note this requires the PANIC_BUNKER to be enabled to do anything.
-#PANIC_BUNKER_INTERVIEW
 
 ## If a player connects during a bunker with less then or this amount of living time (Minutes), we deny the connection
 #PANIC_BUNKER_LIVING 90
@@ -159,6 +172,16 @@ NOTIFY_NEW_ACCOUNT_AGE 7
 
 ##Note: all EXP tracking/restriction require database to be enabled.
 
+## Uncomment this entry to have certain jobs require your account to be at least a certain number of days old to select. You can configure the exact age requirement for different jobs by editing
+## the minimal_player_age variable in the files in folder /code/game/jobs/job/.. for the job you want to edit. Set minimal_player_age to 0 to disable age requirement for that job.
+## REQUIRES the database set up to work. Keep it hashed if you don't have a database set up.
+## NOTE: If you have just set-up the database keep this DISABLED, as player age is determined from the first time they connect to the server with the database up. If you just set it up, it means
+## you have noone older than 0 days, since noone has been logged yet. Only turn this on once you have had the database up for 30 days.
+#USE_AGE_RESTRICTION_FOR_JOBS
+
+## Uncomment this to have the job system use the player's account creation date, rather than the when they first joined the server for job timers.
+#USE_ACCOUNT_AGE_FOR_JOBS
+
 ## Unhash this to track player playtime in the database.
 #USE_EXP_TRACKING
 
@@ -170,6 +193,39 @@ NOTIFY_NEW_ACCOUNT_AGE 7
 
 ## Use playtime in hours restrictions for command
 #USE_EXP_RESTRICTIONS_COMMAND_HOURS
+
+## period of time in seconds for players to be considered afk and kickable
+# AFK_PERIOD 3000
+
+## disconnect players who are considered afk
+#KICK_INACTIVE
+
+## Comment this out to stop admins being able to choose their personal ooccolor
+ALLOW_ADMIN_OOCCOLOR
+
+## allow players to initiate a restart vote
+#ALLOW_VOTE_RESTART
+
+## allow players to initiate a gamemode vote
+#ALLOW_VOTE_MODE
+
+## allow players to initiate a groundmap-change vote
+#ALLOW_VOTE_GROUNDMAP
+
+## allow players to initiate a shipmap-change vote
+#ALLOW_VOTE_SHIPMAP
+
+## min delay (deciseconds) between voting sessions (default 10 minutes)
+VOTE_DELAY 6000
+
+## time period (deciseconds) which voting session will last (default 1 minute)
+VOTE_PERIOD 600
+
+## prevents dead players from voting or starting votes
+# NO_DEAD_VOTE
+
+## players' votes default to "No vote" (otherwise,  default to "No change")
+# DEFAULT_NO_VOTE
 
 ##Note: all population caps can be used with each other if desired.
 
@@ -200,12 +256,31 @@ GUEST_BAN
 ## Comment this out to disable checking for the cid randomizer dll. (disabled if database isn't enabled or connected)
 CHECK_RANDOMIZER
 
-## Uncomment these to set a custom respawn timer; the delay is in ticks.
-#MARINE_RESPAWN 18000
-#XENO_RESPAWN 1200
+###Master Controller High Pop Mode###
 
-## Automatic balance system
-IS_AUTOMATIC_BALANCE_ON
+##The Master Controller(MC) is the primary system controlling timed tasks and events in SS13 (lobby timer, game checks, lighting updates, atmos, etc)
+##Default base MC tick rate (1 = process every "byond tick" (see: tick_lag/fps config settings), 2 = process every 2 byond ticks, etc)
+##	Setting this to 0 will prevent the Master Controller from ticking
+BASE_MC_TICK_RATE 1
+
+##High population MC tick rate
+##	Byond rounds timer values UP, but the tick rate is modified with heuristics during lag spites so setting this to something like 2
+##	will make it run every 2 byond ticks, but will also double the effect of anti-lag heuristics. You can instead set it to something like
+##	1.1 to make it run every 2 byond ticks, but only increase the effect of anti-lag heuristics by 10%. or 1.5 for 50%.
+##	(As an aside, you could in theory also reduce the effect of anti-lag heuristics in the base tick rate by setting it to something like 0.5)
+HIGH_POP_MC_TICK_RATE 1.1
+
+##Engage high pop mode if player count raises above this (Player in this context means any connected user. Lobby, ghost or in-game all count)
+HIGH_POP_MC_MODE_AMOUNT 65
+
+##Disengage high pop mode if player count drops below this
+DISABLE_HIGH_POP_MC_MODE_AMOUNT 60
+
+## Uncomment to prevent the world from sleeping while no players are connected after initializations
+#RESUME_AFTER_INITIALIZATIONS
+
+## Uncomment to set the number of /world/Reboot()s before the DreamDaemon restarts itself. 0 means restart every round. Requires tgstation server tools.
+#ROUNDS_UNTIL_HARD_RESTART 10
 
 ##Default view size, in tiles.
 ##	By default, this is 15x15, which gets simplified to 7 by byond
@@ -224,11 +299,6 @@ DEFAULT_VIEW_SQUARE 15x15
 
 ## Once a typepath causes overrun from hard deletes this many times, stop hard deleting it on garbage collection failures. (set to 0 to disable)
 #HARD_DELETES_OVERRUN_LIMIT 0
-
-## Uncomment if you think xenos are struggling against the marines
-#XENOS_ON_STRIKE
-
-AI_ANTI_STUCK_LAG_TIME_DILATION_THRESHOLD 20
 
 ## Assets can opt-in to caching their results into `tmp`.
 ## This is important, as preferences assets take upwards of 30 seconds (without sleeps) to collect.

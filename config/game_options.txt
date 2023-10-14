@@ -1,0 +1,89 @@
+## Gameplay options
+
+## Uncomment this to enable LRP fun features
+#FUN_ALLOWED
+
+## Comment this out to forbid distress beacons from being sent on infestation gamemodes
+INFESTATION_ERT_ALLOWED
+
+## Uncomment this to disable random events
+#EVENTS_DISALLOWED
+
+## Enable fun rouny sprites for xenos
+#ROONY
+
+## Enable AI xenos
+#XENOS_ON_STRIKE
+
+## Comment this out to disable LOOC
+LOOC_ENABLED
+
+## Comment this out to disable human bone breaking
+BONES_CAN_BREAK
+## Comment this out to disable human limb breaking
+LIMBS_CAN_BREAK
+
+## Uncomment this to allow synthetics to use guns
+#ALLOW_SYNTHETIC_GUN_USE
+## Uncomment this to allow MP guns to be used
+#REMOVE_GUN_RESTRICTIONS
+
+## Doing more damage than FF_DAMAGE_THRESHOLD in FF_DAMAGE_RESET ticks time will ghost players
+#FF_DAMAGE_THRESHOLD 250
+#FF_DAMAGE_RESET 30
+
+## Automatic balance system
+IS_AUTOMATIC_BALANCE_ON
+
+AI_ANTI_STUCK_LAG_TIME_DILATION_THRESHOLD 20
+
+## MOB MOVEMENT ###
+
+## We suggest editing these variables ingame to find a good speed for your server.
+## To do this you must be a high level admin. Open the 'debug' tab ingame.
+## Select "Debug Controller" and then, in the popup, select "Configuration". These variables should have the same name.
+
+## These values get directly added to values and totals ingame.
+## To speed things up make the number negative, to slow things down, make the number positive.
+
+## These modify the run/walk speed of all mobs before the mob-specific modifiers are applied.
+RUN_DELAY 0
+WALK_DELAY 0
+
+## The variables below affect the movement of specific mob types. THIS AFFECTS ALL SUBTYPES OF THE TYPE YOU CHOOSE!
+## Entries completely override all subtypes. Later entries have precedence over earlier entries.
+## This means if you put /mob 0 on the last entry, it will null out all changes, while if you put /mob as the first entry and
+## /mob/living/carbon/human on the last entry, the last entry will override the first.
+##MULTIPLICATIVE_MOVESPEED /mob/living/carbon/human 0
+MULTIPLICATIVE_MOVESPEED /mob/living/simple_animal 1
+
+## NAMES ###
+## If uncommented this adds a random surname to a player's name if they only specify one name.
+HUMANS_NEED_SURNAMES
+
+## Comment this out to allow people to join with duplicate names
+PREVENT_DUPE_NAMES
+
+## ALERT LEVELS ###
+ALERT_DELTA Destruction of the ship is imminent. All crew are instructed to obey all instructions given by heads of staff. Any violations of these orders can be punished by death. This is not a drill.
+
+## AI ###
+
+## Allow the AI job to be picked.
+ALLOW_AI
+
+## Allow the AI Multicamera feature to be used by AI players
+ALLOW_AI_MULTICAM
+
+## ACCESS ###
+
+## If the number of players ready at round starts exceeds this threshold, JOBS_HAVE_MINIMAL_ACCESS will automatically be enabled. Otherwise, it will be disabled.
+## This is useful for accomodating both low and high population rounds on the same server.
+## Comment this out or set to 0 to disable this automatic toggle.
+MINIMAL_ACCESS_THRESHOLD 20
+
+## Comment this out this if you wish to use the setup where jobs have more access.
+## This is intended for servers with low populations - where there are not enough
+## players to fill all roles, so players need to do more than just one job.
+## This option is ignored if MINIMAL_ACCESS_THRESHOLD is used.
+#JOBS_HAVE_MINIMAL_ACCESS

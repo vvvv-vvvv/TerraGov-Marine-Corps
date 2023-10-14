@@ -50,7 +50,7 @@
 	if(status_flags & GODMODE)
 		return
 	if(stat != DEAD)
-		if(!container && (health < get_death_threshold() || ((world.time - timeofhostdeath) > CONFIG_GET(number/revival_brain_life))) )
+		if(!container && health < get_death_threshold())
 			death()
 			blind_eyes(1)
 			return 1
